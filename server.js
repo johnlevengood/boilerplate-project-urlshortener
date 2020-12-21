@@ -55,6 +55,9 @@ app.post('/api/shorturl/new', async (req,res) => {
     }
     try {
         const thisUrl = new URL(orig)
+        if (thisUrl.protocol !== 'https:' && thisUrl.protocol !== 'http:'){
+            return res.send({ error: 'invalid url' })
+        }
         dns.lookup(thisUrl.hostname, {}, async (err, address, family) => {
             if (err){
                 return res.send({ error: 'invalid url' })
